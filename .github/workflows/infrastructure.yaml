@@ -15,10 +15,9 @@ on:
   workflow_dispatch: 
 
 permissions:
-      id-token: write
-      contents: read
-      pages: write
-
+  id-token: write
+  contents: read
+  
 jobs:
 
   deploy:
@@ -39,6 +38,7 @@ jobs:
       REGISTRY_UN: ${{ secrets.AZURE_APP_NAME }}
       CONTAINER_REGISTRY: ${{ secrets.AZURE_APP_NAME }}.azurecr.io
       AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
     steps:
       
@@ -48,17 +48,7 @@ jobs:
       # Login to Azure Cloud https://github.com/marketplace/actions/azure-login
       - name: Azure login
         uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-
-      # Check account status
-      - name: Azure CLI account status
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az account show
+        run: az login --service-principal -t ${{ secrets.AZURE_TENANT_ID }} -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CREDENTIALS }}
 
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
