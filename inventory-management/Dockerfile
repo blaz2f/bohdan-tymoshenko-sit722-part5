@@ -1,4 +1,4 @@
-# Dockerfile for inventory_management microservice
+# Dockerfile for inventory-management microservice
 FROM python:3.10
 
 WORKDIR /app

@@ -1,7 +1,7 @@
 # Sets global variables for this Terraform project.
 
 variable app_name {
-  default = "223306781sit722week902"
+  default = $AZURE_APP_NAME
 }
 
 variable location {

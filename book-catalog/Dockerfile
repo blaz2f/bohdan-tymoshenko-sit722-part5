@@ -1,4 +1,4 @@
-# Dockerfile for book_catalog microservice
+# Dockerfile for book-catalog microservice
 FROM python:3.10
 
 WORKDIR /app
