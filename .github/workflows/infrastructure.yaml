@@ -39,7 +39,16 @@ jobs:
       # Login to Azure Cloud https://github.com/marketplace/actions/azure-login
       - name: Azure login
         uses: azure/login@v2
-        run: az login --service-principal -t ${{ secrets.AZURE_TENANT_ID }} -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CREDENTIALS }}
+        creds: 
+              ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Check account status
+      - name: Azure CLI account status
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az account show
 
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
