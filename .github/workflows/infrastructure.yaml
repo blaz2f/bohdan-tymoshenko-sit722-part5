@@ -14,16 +14,21 @@ on:
   #
   workflow_dispatch: 
 
+permissions:
+      id-token: write
+      contents: read
+      pages: write
+
 jobs:
 
   deploy:
+    runs-on: ubuntu-latest
+
     permissions:
       id-token: write
       contents: read
       pages: write
 
-    runs-on: ubuntu-latest
-    
     env:
       VERSION: ${{ github.sha }}
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}

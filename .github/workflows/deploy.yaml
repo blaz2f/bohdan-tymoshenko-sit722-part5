@@ -25,6 +25,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     
+    permissions:
+      id-token: write
+      contents: read
+      pages: write
+    
     env:
       VERSION: ${{ github.sha }}
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -42,7 +47,7 @@ jobs:
 
       # Login to Azure Cloud https://github.com/marketplace/actions/azure-login
       - name: Azure login
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -50,7 +55,7 @@ jobs:
 
       # Check account status
       - name: Azure CLI account status
-        uses: azure/cli@v1
+        uses: azure/cli@v2
         with:
           azcliversion: latest
           inlineScript: |
@@ -60,7 +65,7 @@ jobs:
       - name: Azure CLI container registry password
         id: REGISTRY_PW
         run: |
-          h=$(az acr credential show -n ${{ CONTAINER_REGISTRY }} --query 'passwords[0].value') 
+          h=$(az acr credential show -n ${{ secrets.AZURE_APP_NAME }}.azurecr.io --query 'passwords[0].value') 
 
           echo "::set-output name=h::$h"
 
@@ -68,7 +73,7 @@ jobs:
       - name: Azure CLI container registry password
         id: KUBE_CONFIG
         run: |
-          h=$(az aks get-credentials --resource-group ${{ AZURE_RESOURCE_GROUP_NAME }} --name ${{ AZURE_APP_NAME }})
+          h=$(az aks get-credentials --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ secrets.AZURE_APP_NAME }})
 
           echo "::set-output name=h::$h"
    

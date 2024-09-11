@@ -17,6 +17,11 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+      pages: write
     
     env:
       VERSION: ${{ github.sha }}
