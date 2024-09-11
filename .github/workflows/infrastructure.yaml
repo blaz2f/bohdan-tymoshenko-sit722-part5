@@ -14,15 +14,14 @@ on:
   #
   workflow_dispatch: 
 
-permissions:
-  id-token: write
-  contents: read
-  pages: write
-
-
 jobs:
 
   deploy:
+    permissions:
+      id-token: write
+      contents: read
+      pages: write
+
     runs-on: ubuntu-latest
     
     env:
