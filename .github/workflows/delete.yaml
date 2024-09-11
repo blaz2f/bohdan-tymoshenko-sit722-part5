@@ -41,7 +41,6 @@ jobs:
 
        # Login to Azure Cloud https://github.com/marketplace/actions/azure-login
       - name: Azure login
-        uses: azure/login@v2
         run: az login --service-principal -t ${{ secrets.AZURE_TENANT_ID }} -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CREDENTIALS }}
 
       - uses: tale/kubectl-action@v1
