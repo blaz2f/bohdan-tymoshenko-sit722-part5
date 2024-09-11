@@ -37,13 +37,13 @@ jobs:
 
       # Login to Azure Cloud https://github.com/marketplace/actions/azure-login
       - name: Azure login
-        uses: azure/login@v2
+        uses: azure/login@v1
         with:
               creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Check account status
       - name: Azure CLI account status
-        uses: azure/cli@v2
+        uses: azure/cli@v1
         with:
           azcliversion: latest
           inlineScript: |
