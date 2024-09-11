@@ -49,7 +49,6 @@ jobs:
         run: terraform init
         env:
           TF_VAR_app_name: ${{ secrets.AZURE_APP_NAME }}
-          TF_VAR_app_name: ${{ secrets.AZURE_APP_NAME }}
           TF_VAR_resource_group_name: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
 
        # Terraform Apply
