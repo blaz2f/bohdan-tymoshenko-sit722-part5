@@ -1,7 +1,9 @@
 # Sets global variables for this Terraform project.
 
 variable app_name {
-  default = $AZURE_APP_NAME
+}
+
+variable resource_group_name {
 }
 
 variable location {

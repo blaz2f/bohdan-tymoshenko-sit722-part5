@@ -36,6 +36,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE.
       - uses: actions/checkout@v3
 
+      # login to Azure services
       - name: Azure login
         run: az login --service-principal -t ${{ secrets.AZURE_TENANT_ID }} -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CREDENTIALS }}
 
@@ -46,6 +47,10 @@ jobs:
        # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: terraform init
+        env:
+          TF_VAR_app_name: ${{ secrets.AZURE_APP_NAME }}
+          TF_VAR_app_name: ${{ secrets.AZURE_APP_NAME }}
+          TF_VAR_resource_group_name: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
 
        # Terraform Apply
       - name: Terraform Apply
