@@ -130,8 +130,6 @@ jobs:
                chmod +x ./scripts/push-image.sh
                ./scripts/push-image.sh
 
-      
-      
       #
       # Expands the configuration template and deploys the microservice.
       #
@@ -139,7 +137,6 @@ jobs:
         env:
           CONTAINER_REGISTRY: ${{ steps.CONTAINER_REGISTRY.outputs.h }}
         run: | 
-               chmod +x ./scripts/deploy.sh
                ./scripts/deploy.sh
       
       - name: Sleep for 20 seconds
