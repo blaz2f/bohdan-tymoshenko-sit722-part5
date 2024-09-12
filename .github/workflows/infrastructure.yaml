@@ -52,5 +52,5 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
         env:
-          TF_VAR_app_name: ${{ secrets.AZURE_APP_NAME }}
-          TF_VAR_resource_group_name: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+          app_name: ${{ secrets.AZURE_APP_NAME }}
+          resource_group_name: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
