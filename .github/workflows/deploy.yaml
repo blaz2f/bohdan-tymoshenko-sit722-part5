@@ -67,11 +67,10 @@ jobs:
 
       - name: Set KUBE_CONFIG env
         run: | 
-              cat ~/.kube/config | base64 --decode > cert.der
-              
-      - name: Show certificate information
-        run: |
-          openssl x509 -in cert.der -inform DER -text -noout
+              cat ~/.kube/config | base64 --decode > populated_kube.conf
+
+      - name: export KUBECONFIG path
+        run: echo "KUBE_CONFIG=populated_kube.conf" >> $GITHUB_ENV
 
       #- name: Set KUBE_CONFIG env
       #  run: | 
@@ -92,7 +91,7 @@ jobs:
       #
       - uses: tale/kubectl-action@v1
         with:
-          base64-kube-config:  ${{ secrets.KUBE_CONFIG }}
+          base64-kube-config:  $KUBE_CONFIG
           kubectl-version: v1.30.3
 
       #
