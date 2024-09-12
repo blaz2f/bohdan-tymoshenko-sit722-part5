@@ -71,6 +71,7 @@ jobs:
       - name: Build book-catalog 
         env:
           APPLICATION_NAME: book-catalog
+          REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
         run: ./scripts/build-image.sh
       
       - name: Build inventory-management
@@ -85,6 +86,7 @@ jobs:
       - name: Publish book-catalog 
         env:
           APPLICATION_NAME: book-catalog
+          REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
         run: ./scripts/push-image.sh
 
       - name: Publish inventory-management
