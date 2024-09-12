@@ -137,6 +137,7 @@ jobs:
         env:
           CONTAINER_REGISTRY: ${{ steps.CONTAINER_REGISTRY.outputs.h }}
         run: | 
+               chmod +x ./scripts/deploy.sh
                ./scripts/deploy.sh
       
       - name: Sleep for 20 seconds
