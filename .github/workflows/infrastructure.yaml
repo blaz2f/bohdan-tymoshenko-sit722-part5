@@ -46,10 +46,7 @@ jobs:
 
        # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
-        run: terraform init
-        env:
-          TF_VAR_app_name: ${{ secrets.AZURE_APP_NAME }}
-          TF_VAR_resource_group_name: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+        run: terraform init -backend-config="resource_group_name=$AZURE_RESOURCE_GROUP_NAME" -backend-config="app_name=$AZURE_APP_NAME"
 
        # Terraform Apply
       - name: Terraform Apply
