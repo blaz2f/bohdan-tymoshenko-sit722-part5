@@ -72,7 +72,7 @@ jobs:
       - name: Build book-catalog 
         env:
           APPLICATION_NAME: book-catalog
-        run: chmod +x ./scripts/build-image.sh
+        run: chmod +x /scripts/build-image.sh
       
       - name: Build inventory-management
         env:
