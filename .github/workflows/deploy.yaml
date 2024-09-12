@@ -73,11 +73,13 @@ jobs:
         env:
           APPLICATION_NAME: book-catalog
         run: ./scripts/build-image.sh
+        options: --user root
       
       - name: Build inventory-management
         env:
           APPLICATION_NAME: inventory-management
         run: ./scripts/build-image.sh
+        options: --user root
 
       #
       # Publishes the Docker images to the container registry.
