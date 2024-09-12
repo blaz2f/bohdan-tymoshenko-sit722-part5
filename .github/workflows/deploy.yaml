@@ -31,7 +31,6 @@ jobs:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      CONTAINER_REGISTRY: ${{ secrets.AZURE_APP_NAME }}.azurecr.io
       AZURE_APP_NAME: ${{ secrets.AZURE_APP_NAME }}
       REGISTRY_UN: ${{ secrets.AZURE_APP_NAME }}
       AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
@@ -44,14 +43,22 @@ jobs:
        # login to Azure services
       - name: Azure login
         run: az login --service-principal -t ${{ secrets.AZURE_TENANT_ID }} -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CREDENTIALS }}
-            
+      
+      # Get container registry password --output
+      - name: Azure CLI container registry password
+        id: CONTAINER_REGISTRY
+        run: |
+          h=$(az acr list -g $AZURE_RESOURCE_GROUP_NAME --query "[].{acrLoginServer:loginServer}[0].acrLoginServer"') 
+
+          echo "::set-output name=h::$h"
+
       # Get container registry password --output
       - name: Azure CLI container registry password
         id: REGISTRY_PW
         run: |
-          h=$(az acr credential show -n $CONTAINER_REGISTRY --query 'passwords[0].value') 
+          h=$(az acr credential show -n ${{ steps.CONTAINER_REGISTRY.outputs.h }} --query 'passwords[0].value') 
 
-          echo "::set-output name=h::$h"
+          echo "::set-output name=h::$h"   
 
       # Get kubernetes credentials --output
       - name: Azure CLI container registry password
@@ -68,6 +75,7 @@ jobs:
         env:
           NAME: book-catalog
           DIRECTORY: book-catalog
+          CONTAINER_REGISTRY: ${{ steps.CONTAINER_REGISTRY.outputs.h }}
         run: | 
                chmod +x ./scripts/build-image.sh
                ./scripts/build-image.sh
@@ -76,6 +84,7 @@ jobs:
         env:
           NAME: inventory-management
           DIRECTORY: inventory-management
+          CONTAINER_REGISTRY: ${{ steps.CONTAINER_REGISTRY.outputs.h }}
         run: | 
                chmod +x ./scripts/build-image.sh
                ./scripts/build-image.sh
@@ -87,6 +96,7 @@ jobs:
         env:
           NAME: book-catalog
           DIRECTORY: book-catalog
+          CONTAINER_REGISTRY: ${{ steps.CONTAINER_REGISTRY.outputs.h }}
           REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
         run: | 
                chmod +x ./scripts/push-image.sh
@@ -96,6 +106,7 @@ jobs:
         env:
           NAME: inventory-management
           DIRECTORY: inventory-management
+          CONTAINER_REGISTRY: ${{ steps.CONTAINER_REGISTRY.outputs.h }}
           REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
         run: | 
                chmod +x ./scripts/push-image.sh
