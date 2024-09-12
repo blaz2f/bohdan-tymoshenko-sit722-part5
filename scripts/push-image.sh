@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set -u # or set -o nounset
 : "$VERSION"
 : "$REGISTRY_UN"

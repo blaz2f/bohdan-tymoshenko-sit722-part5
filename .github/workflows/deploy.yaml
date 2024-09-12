@@ -79,7 +79,9 @@ jobs:
         env:
           NAME: inventory-management
           DIRECTORY: inventory-management
-        run: ./scripts/build-image.sh
+        run: | 
+               chmod +x ./scripts/build-image.sh
+               ./scripts/build-image.sh
 
       #
       # Publishes the Docker images to the container registry.
@@ -88,13 +90,17 @@ jobs:
         env:
           APPLICATION_NAME: book-catalog
           REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
-        run: ./scripts/push-image.sh
+        run: | 
+               chmod +x ./scripts/push-image.sh
+               ./scripts/push-image.sh
 
       - name: Publish inventory-management
         env:
           APPLICATION_NAME: inventory-management
           REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
-        run: ./scripts/push-image.sh
+        run: | 
+               chmod +x ./scripts/push-image.sh
+               ./scripts/push-image.sh
 
       #
       # Installs Kubectl and connects it to the cluster.
@@ -110,7 +116,9 @@ jobs:
       # Expands the configuration template and deploys the microservice.
       #
       - name: Deploy
-        run: ./scripts/deploy.sh
+        run: | 
+               chmod +x ./scripts/deploy.sh
+               ./scripts/deploy.sh
       
       - name: Sleep for 20 seconds
         run: sleep 20s
