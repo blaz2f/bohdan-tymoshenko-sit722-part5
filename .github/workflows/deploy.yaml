@@ -77,8 +77,8 @@ jobs:
       
       - name: Build inventory-management
         env:
-          NAME: book-catalog
-          DIRECTORY: book-catalog
+          NAME: inventory-management
+          DIRECTORY: inventory-management
         run: ./scripts/build-image.sh
 
       #
