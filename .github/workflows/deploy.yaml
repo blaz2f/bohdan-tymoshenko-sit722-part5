@@ -25,6 +25,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     
+    permissions:
+      id-token: write
+      contents: read
+      pages: write
+    
     env:
       VERSION: ${{ github.sha }}
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -65,11 +70,10 @@ jobs:
       # Builds the Docker images.
       #
       - name: Build book-catalog 
-        shell: bash
         env:
           APPLICATION_NAME: book-catalog
-        run: >
-        ./scripts/build-image.sh
+        run: ./scripts/build-image.sh
+        shell: bash
       
       - name: Build inventory-management
         env:
@@ -89,7 +93,7 @@ jobs:
         env:
           APPLICATION_NAME: inventory-management
           REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
-        run: ./scripts/push-image.sh
+        run: chmod +x ./scripts/push-image.sh
 
       #
       # Installs Kubectl and connects it to the cluster.
@@ -106,3 +110,13 @@ jobs:
       #
       - name: Deploy
         run: ./scripts/deploy.sh
+
+      - name: Sleep for 20 seconds
+        run: sleep 20s
+        shell: bash
+
+      #
+      # Getting external IP address for accessing deployment.
+      #
+      - name: 'Getting Deployment address'
+        run: 'kubectl get services'
