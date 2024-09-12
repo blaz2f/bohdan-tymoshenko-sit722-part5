@@ -3,6 +3,7 @@ set -u # or set -o nounset
 : "$REGISTRY_UN"
 : "$REGISTRY_PW"
 : "$APPLICATION_NAME"
+: "$CONTAINER_REGISTRY"
 
-echo $REGISTRY_PW | docker login $APPLICATION_NAME --username $REGISTRY_UN --password-stdin
-docker push $APPLICATION_NAME.azurecr.io/$APPLICATION_NAME:$VERSION
+echo $REGISTRY_PW | docker login $CONTAINER_REGISTRY --username $REGISTRY_UN --password-stdin
+docker push $CONTAINER_REGISTRY/$APPLICATION_NAME:$VERSION

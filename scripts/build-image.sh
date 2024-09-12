@@ -3,4 +3,4 @@ set -u # or set -o nounset
 : "$VERSION"
 : "$APPLICATION_NAME"
 
-docker build -t $CONTAINER_REGISTRY/$APPLICATION_NAME:$VERSION --file ./$APPLICATION_NAME/Dockerfile .
+docker build -t $CONTAINER_REGISTRY/$APPLICATION_NAME:$VERSION --file ./$APPLICATION_NAME/Dockerfile ./$APPLICATION_NAME

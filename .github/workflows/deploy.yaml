@@ -36,6 +36,7 @@ jobs:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      CONTAINER_REGISTRY: ${{ secrets.AZURE_APP_NAME }}.azurecr.io
       AZURE_APP_NAME: ${{ secrets.AZURE_APP_NAME }}
       REGISTRY_UN: ${{ secrets.AZURE_APP_NAME }}
       AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
@@ -71,13 +72,11 @@ jobs:
       - name: Build book-catalog 
         env:
           APPLICATION_NAME: book-catalog
-          REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
         run: ./scripts/build-image.sh
       
       - name: Build inventory-management
         env:
           APPLICATION_NAME: inventory-management
-          REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
         run: ./scripts/build-image.sh
 
       #
