@@ -65,6 +65,14 @@ jobs:
       - name: Azure CLI Kubernetes Credentials
         run: az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP_NAME --name $AZURE_APP_NAME
 
+      - name: Set KUBE_CONFIG env
+        run: | 
+              cat ~/.kube/config | base64 --decode > cert.der
+              
+      - name: Show certificate information
+        run: |
+          openssl x509 -in cert.der -inform DER -text -noout
+
       #- name: Set KUBE_CONFIG env
       #  run: | 
       #        cat ~/.kube/config | base64 > ~/kubeconfig.txt
@@ -73,7 +81,7 @@ jobs:
       #- name: Azure CLI container registry password
       #  id: KUBE_CONFIG
       #  run: |
-      ##    h=$(cat ~/.kube/config | base64) 
+      #    h=$(cat ~/.kube/config | base64) 
 
       #    echo "::set-output name=h::$h"   
 
