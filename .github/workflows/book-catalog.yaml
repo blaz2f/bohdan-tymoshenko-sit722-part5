@@ -5,7 +5,7 @@
 # For real use you might want to restrict this to the "prod" branch.
 #
 
-name: Deploy Microservices
+name: Deploy Book Catalog
 
 on:
   #
@@ -67,8 +67,8 @@ jobs:
       #
       # Builds the Docker images.
       #
-      - name: Build book-catalog 
-        run: ./scripts/build-image.sh
+      #- name: Build book-catalog 
+      #  run: ./scripts/build-image.sh
 
       #
       # Publishes the Docker images to the container registry.
