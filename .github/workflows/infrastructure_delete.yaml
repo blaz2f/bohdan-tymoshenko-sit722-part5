@@ -52,10 +52,6 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      # Terraform Plan
-      - name: Terraform Plan
-        run: terraform plan -input=false -var app_name=${{ secrets.AZURE_APP_NAME }} -var resource_group_name=${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
-     
        # Terraform Destroy
       - name: Terraform Destroy
         run: terraform destroy -auto-approve -var app_name=${{ secrets.AZURE_APP_NAME }} -var resource_group_name=${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
