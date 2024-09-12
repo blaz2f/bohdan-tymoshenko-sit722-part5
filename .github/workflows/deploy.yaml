@@ -72,12 +72,12 @@ jobs:
       - name: Build book-catalog 
         env:
           APPLICATION_NAME: book-catalog
-        run: ./scripts/build-image.sh
+        run: chmod +x ./scripts/build-image.sh
       
       - name: Build inventory-management
         env:
           APPLICATION_NAME: inventory-management
-        run: ./scripts/build-image.sh
+        run: chmod +x ./scripts/build-image.sh
 
       #
       # Publishes the Docker images to the container registry.
@@ -86,13 +86,13 @@ jobs:
         env:
           APPLICATION_NAME: book-catalog
           REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
-        run: ./scripts/push-image.sh
+        run: chmod +x ./scripts/push-image.sh
 
       - name: Publish inventory-management
         env:
           APPLICATION_NAME: inventory-management
           REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
-        run: ./scripts/push-image.sh
+        run: chmod +x ./scripts/push-image.sh
 
       #
       # Installs Kubectl and connects it to the cluster.
