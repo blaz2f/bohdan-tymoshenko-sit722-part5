@@ -71,7 +71,9 @@ jobs:
         env:
           NAME: book-catalog
           DIRECTORY: book-catalog
-        run: sudo ./scripts/build-image.sh
+        run: | 
+               chmod +x ./scripts/build-image.sh
+               ./scripts/build-image.sh
       
       - name: Build inventory-management
         env:
