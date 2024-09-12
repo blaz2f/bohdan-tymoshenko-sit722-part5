@@ -125,7 +125,10 @@ jobs:
 
 
       - name: test
-        run: echo $KUBE_CONFIG
+        run: |
+              h=$($KUBE_CONFIG) 
+
+              echo "::set-output name=h::$h"   
       #
       # Expands the configuration template and deploys the microservice.
       #
