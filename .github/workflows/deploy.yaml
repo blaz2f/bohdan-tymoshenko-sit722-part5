@@ -48,7 +48,7 @@ jobs:
       - name: Azure CLI container registry URL
         id: CONTAINER_REGISTRY
         run: |
-          h=$(az acr list -g $AZURE_RESOURCE_GROUP_NAME --query "[].{acrLoginServer:loginServer}[0].acrLoginServer") 
+          h=$(az acr list -g $AZURE_RESOURCE_GROUP_NAME --query "[].{acrLoginServer:loginServer}[0].acrLoginServer" --output tsv) 
 
           echo "::set-output name=h::$h"
 
@@ -56,7 +56,7 @@ jobs:
       - name: Azure CLI container registry password
         id: REGISTRY_PW
         run: |
-          h=$(az acr credential show -n ${{ steps.CONTAINER_REGISTRY.outputs.h }} --query 'passwords[0].value') 
+          h=$(az acr credential show -n ${{ steps.CONTAINER_REGISTRY.outputs.h }} --query 'passwords[0].value' --output tsv) 
 
           echo "::set-output name=h::$h"   
 
@@ -64,7 +64,7 @@ jobs:
       - name: Azure CLI Kubernetes Credentials
         id: KUBE_CONFIG
         run: |
-          h=$(az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP_NAME --name $AZURE_APP_NAME)
+          h=$(az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP_NAME --name $AZURE_APP_NAME --output tsv)
 
           echo "::set-output name=h::$h"
 
