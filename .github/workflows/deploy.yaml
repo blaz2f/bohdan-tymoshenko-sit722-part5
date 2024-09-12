@@ -54,7 +54,7 @@ jobs:
       - name: Azure CLI container registry password
         id: REGISTRY_PW
         run: |
-          h=$(az acr credential show -n ${{ secrets.AZURE_APP_NAME }}.azurecr.io --query 'passwords[0].value') 
+          h=$(az acr credential show -n $CONTAINER_REGISTRY --query 'passwords[0].value') 
 
           echo "::set-output name=h::$h"
 
@@ -62,7 +62,7 @@ jobs:
       - name: Azure CLI container registry password
         id: KUBE_CONFIG
         run: |
-          h=$(az aks get-credentials --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ secrets.AZURE_APP_NAME }})
+          h=$(az aks get-credentials --resource-group $CONTAINER_REGISTRY --name $AZURE_APP_NAME)
 
           echo "::set-output name=h::$h"
    
