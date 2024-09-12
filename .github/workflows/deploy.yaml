@@ -88,7 +88,8 @@ jobs:
       #
       - name: Publish book-catalog 
         env:
-          APPLICATION_NAME: book-catalog
+          NAME: inventory-management
+          DIRECTORY: inventory-management
           REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
         run: | 
                chmod +x ./scripts/push-image.sh
@@ -96,7 +97,8 @@ jobs:
 
       - name: Publish inventory-management
         env:
-          APPLICATION_NAME: inventory-management
+          NAME: inventory-management
+          DIRECTORY: inventory-management
           REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
         run: | 
                chmod +x ./scripts/push-image.sh
