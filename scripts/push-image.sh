@@ -1,11 +1,11 @@
 #!/bin/bash
 
 set -u # or set -o nounset
+: "$CONTAINER_REGISTRY"
 : "$VERSION"
 : "$REGISTRY_UN"
 : "$REGISTRY_PW"
-: "$APPLICATION_NAME"
-: "$CONTAINER_REGISTRY"
+: "$NAME"
 
 echo $REGISTRY_PW | docker login $CONTAINER_REGISTRY --username $REGISTRY_UN --password-stdin
-docker push $CONTAINER_REGISTRY/$APPLICATION_NAME:$VERSION
+docker push $CONTAINER_REGISTRY/$NAME:$VERSION
