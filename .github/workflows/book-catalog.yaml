@@ -1,0 +1,95 @@
+# 
+# GitHub Actions workflow.
+#
+# Automatically deploys the Node.js microservice to Kubernetes on push to any branch. 
+# For real use you might want to restrict this to the "prod" branch.
+#
+
+name: Deploy Microservices
+
+on:
+  #
+  # Deploys the microservice on push to the main branch of this code repository.
+  #
+  push: 
+    branches:
+      - main
+    paths:
+      - book-catalog/**
+
+  #
+  # Allows deployment to be invoked manually through the GitHub Actions user interface.
+  #
+  workflow_dispatch: 
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    
+    env:
+      VERSION: ${{ github.sha }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      CONTAINER_REGISTRY: ${{ secrets.AZURE_APP_NAME }}.azurecr.io
+      AZURE_APP_NAME: ${{ secrets.AZURE_APP_NAME }}
+      REGISTRY_UN: ${{ secrets.AZURE_APP_NAME }}
+      AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+      APPLICATION_NAME: book-catalog
+
+    steps:
+      
+      # Checks-out your repository under $GITHUB_WORKSPACE.
+      - uses: actions/checkout@v3
+
+       # login to Azure services
+      - name: Azure login
+        run: az login --service-principal -t ${{ secrets.AZURE_TENANT_ID }} -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CREDENTIALS }}
+            
+      # Get container registry password --output
+      - name: Azure CLI container registry password
+        id: REGISTRY_PW
+        run: |
+          h=$(az acr credential show -n $CONTAINER_REGISTRY --query 'passwords[0].value') 
+
+          echo "::set-output name=h::$h"
+
+      # Get kubernetes credentials --output
+      - name: Azure CLI container registry password
+        id: KUBE_CONFIG
+        run: |
+          h=$(az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP_NAME --name $AZURE_APP_NAME)
+
+          echo "::set-output name=h::$h"
+   
+      #
+      # Builds the Docker images.
+      #
+      - name: Build book-catalog 
+        run: ./scripts/build-image.sh
+
+      #
+      # Publishes the Docker images to the container registry.
+      #
+      - name: Publish book-catalog 
+        env:
+          REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
+        run: ./scripts/push-image.sh
+
+      #
+      # Installs Kubectl and connects it to the cluster.
+      #
+      # https://github.com/marketplace/actions/kubernetes-cli-kubectl
+      #
+      - uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ steps.KUBE_CONFIG.outputs.h }}
+          kubectl-version: v1.30.3
+      
+      #
+      # Expands the configuration template and deploys the microservice.
+      #
+      - name: Deploy
+        run: ./scripts/deploy.sh
