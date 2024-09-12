@@ -72,6 +72,18 @@ jobs:
       - name: export KUBECONFIG path
         run: echo "KUBE_CONFIG=kubeconfig.conf" >> $GITHUB_ENV
 
+      - name: Set AKS context
+        id: set-context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: '${{ secrets.AZURE_RESOURCE_GROUP_NAME }}' 
+          cluster-name: '${{ secrets.AZURE_APP_NAME }}' 
+      - name: Setup kubectl
+        id: install-kubectl
+        uses: azure/setup-kubectl@v3 
+
+
+
       #- name: Set KUBE_CONFIG env
       #  run: | 
       #        cat ~/.kube/config | base64 > ~/kubeconfig.txt
@@ -89,10 +101,10 @@ jobs:
       #
       # https://github.com/marketplace/actions/kubernetes-cli-kubectl
       #
-      - uses: tale/kubectl-action@v1
-        with:
-          base64-kube-config:  $KUBE_CONFIG
-          kubectl-version: v1.30.3
+      #- uses: tale/kubectl-action@v1
+      #  with:
+      #    base64-kube-config:  $KUBE_CONFIG
+      #    kubectl-version: v1.30.3
 
       #
       # Builds the Docker images.
