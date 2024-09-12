@@ -64,10 +64,17 @@ jobs:
       - name: Azure CLI Kubernetes Credentials
         run: az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP_NAME --name $AZURE_APP_NAME
 
-      - name: Set KUBE_CONFIG env
-        run: | 
-              cat ~/.kube/config | base64 > ~/kubeconfig.txt
-              echo "$KUBE_CONFIG" > ~/kubeconfig.txt
+      #- name: Set KUBE_CONFIG env
+      #  run: | 
+      #        cat ~/.kube/config | base64 > ~/kubeconfig.txt
+      #        echo "$KUBE_CONFIG" > ~/kubeconfig.txt
+
+      - name: Azure CLI container registry password
+        id: KUBE_CONFIG
+        run: |
+          h=$(cat ~/.kube/config | base64) 
+
+          echo "::set-output name=h::$h"   
 
       #
       # Installs Kubectl and connects it to the cluster.
@@ -76,7 +83,7 @@ jobs:
       #
       - uses: tale/kubectl-action@v1
         with:
-          base64-kube-config:  $KUBE_CONFIG
+          base64-kube-config:  ${{ steps.KUBE_CONFIG.outputs.h }}
           kubectl-version: v1.30.3
 
       #
@@ -122,13 +129,6 @@ jobs:
         run: | 
                chmod +x ./scripts/push-image.sh
                ./scripts/push-image.sh
-
-
-      - name: test
-        run: |
-              h=$($KUBE_CONFIG) 
-
-              echo "::set-output name=h::$h"   
       #
       # Expands the configuration template and deploys the microservice.
       #
