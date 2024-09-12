@@ -67,10 +67,10 @@ jobs:
 
       - name: Set KUBE_CONFIG env
         run: | 
-              cat ~/.kube/config | base64 --decode > config.txt
+              cat ~/.kube/config | base64 --decode > ~/kubeconfig.conf
 
       - name: export KUBECONFIG path
-        run: echo "KUBE_CONFIG=config.txt" >> $GITHUB_ENV
+        run: echo "KUBE_CONFIG=kubeconfig.conf" >> $GITHUB_ENV
 
       #- name: Set KUBE_CONFIG env
       #  run: | 
