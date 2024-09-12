@@ -50,7 +50,4 @@ jobs:
 
        # Terraform Apply
       - name: Terraform Apply
-        run: terraform apply -auto-approve
-        env:
-          app_name: ${{ secrets.AZURE_APP_NAME }}
-          resource_group_name: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+        run: terraform apply -auto-approve -var app_name=$RGAZURE_APP_NAME_NAME -var resource_group_name=$AZURE_RESOURCE_GROUP_NAME
