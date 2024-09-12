@@ -65,9 +65,11 @@ jobs:
       # Builds the Docker images.
       #
       - name: Build book-catalog 
+        shell: bash
         env:
           APPLICATION_NAME: book-catalog
-        run: ./scripts/build-image.sh
+        run: >
+        ./scripts/build-image.sh
       
       - name: Build inventory-management
         env:
