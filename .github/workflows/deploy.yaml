@@ -69,13 +69,6 @@ jobs:
               cat ~/.kube/config | base64 > ~/kubeconfig.txt
               echo "$KUBE_CONFIG" > ~/kubeconfig.txt
 
-      #- name: Get Kubernetes Credentials
-      #  id: KUBE_CONFIG
-      #  run: |
-      #    h=$(cat ~/.kube/config | base64) 
-
-      #    echo "::set-output name=h::$h" 
-
       #
       # Installs Kubectl and connects it to the cluster.
       #
@@ -130,6 +123,9 @@ jobs:
                chmod +x ./scripts/push-image.sh
                ./scripts/push-image.sh
 
+
+      - name: test
+        run: echo $KUBE_CONFIG
       #
       # Expands the configuration template and deploys the microservice.
       #
