@@ -33,6 +33,7 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       AZURE_APP_NAME: ${{ secrets.AZURE_APP_NAME }}
       REGISTRY_UN: ${{ secrets.AZURE_APP_NAME }}
+      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
       AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
 
     steps:
@@ -69,12 +70,12 @@ jobs:
       #        cat ~/.kube/config | base64 > ~/kubeconfig.txt
       #        echo "$KUBE_CONFIG" > ~/kubeconfig.txt
 
-      - name: Azure CLI container registry password
-        id: KUBE_CONFIG
-        run: |
-          h=$(cat ~/.kube/config | base64) 
+      #- name: Azure CLI container registry password
+      #  id: KUBE_CONFIG
+      #  run: |
+      ##    h=$(cat ~/.kube/config | base64) 
 
-          echo "::set-output name=h::$h"   
+      #    echo "::set-output name=h::$h"   
 
       #
       # Installs Kubectl and connects it to the cluster.
@@ -83,7 +84,7 @@ jobs:
       #
       - uses: tale/kubectl-action@v1
         with:
-          base64-kube-config:  ${{ steps.KUBE_CONFIG.outputs.h }}
+          base64-kube-config:  ${{ secrets.KUBE_CONFIG }}
           kubectl-version: v1.30.3
 
       #
