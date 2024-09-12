@@ -102,7 +102,7 @@ jobs:
       - uses: tale/kubectl-action@v1
         with:
           base64-kube-config: ${{ steps.KUBE_CONFIG.outputs.h }}
-          kubectl-version: v1.24.2
+          kubectl-version: v1.30.3
       
       #
       # Expands the configuration template and deploys the microservice.
