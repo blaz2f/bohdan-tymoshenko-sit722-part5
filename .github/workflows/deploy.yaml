@@ -64,7 +64,7 @@ jobs:
       - name: Azure CLI Kubernetes Credentials
         id: KUBE_CONFIG
         run: |
-          h=$(az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP_NAME --name $AZURE_APP_NAME --output tsv)
+          h=$(az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP_NAME --name $AZURE_APP_NAME)
 
           echo "::set-output name=h::$h"
 
