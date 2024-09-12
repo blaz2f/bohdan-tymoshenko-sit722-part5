@@ -50,15 +50,7 @@ jobs:
 
       # Terraform Plan
       - name: Terraform Plan
-        run: |
-          terraform plan -input=false -var app_name=$AZURE_APP_NAME_NAME -var resource_group_name=$AZURE_RESOURCE_GROUP_NAME
-        env:
-          AZURE_APP_NAME: ${{ secrets.AZURE_APP_NAME }}
-          AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
-
+        run: terraform plan -input=false -var app_name=${{ secrets.AZURE_APP_NAME }} -var resource_group_name=${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
        # Terraform Apply
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var app_name=$AZURE_APP_NAME_NAME -var resource_group_name=$AZURE_RESOURCE_GROUP_NAME
-        env:
-          AZURE_APP_NAME: ${{ secrets.AZURE_APP_NAME }}
-          AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+        run: terraform apply -auto-approve -var app_name=${{ secrets.AZURE_APP_NAME }} -var resource_group_name=${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
