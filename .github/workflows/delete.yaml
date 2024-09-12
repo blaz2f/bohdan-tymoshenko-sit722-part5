@@ -15,7 +15,7 @@ on:
 
 jobs:
 
-  deploy:
+  delete:
     runs-on: ubuntu-latest
 
     permissions:
@@ -52,4 +52,11 @@ jobs:
       # Deletes the configuration template and deploys the microservice.
       #
       - name: Delete
-        run: ./scripts/delete.sh
+        env:
+          CONTAINER_REGISTRY: ${{ steps.CONTAINER_REGISTRY.outputs.h }}
+        run: | 
+               chmod +x ./scripts/delete.sh
+               ./scripts/delete.sh
+
+      - name: 'Getting Deployments'
+        run: 'kubectl get deployments'
