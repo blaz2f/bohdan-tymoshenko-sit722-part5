@@ -43,10 +43,21 @@ jobs:
       - name: Azure login
         run: az login --service-principal -t ${{ secrets.AZURE_TENANT_ID }} -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CREDENTIALS }}
         
-      - uses: tale/kubectl-action@v1
+      #- uses: tale/kubectl-action@v1
+      #  with:
+      #    base64-kube-config: ${{ secrets.KUBE_CONFIG }}
+      #    kubectl-version: v1.30.3
+
+      - name: Set AKS context
+        id: set-context
+        uses: azure/aks-set-context@v3
         with:
-          base64-kube-config: ${{ secrets.KUBE_CONFIG }}
-          kubectl-version: v1.30.3
+          resource-group: '${{ secrets.AZURE_RESOURCE_GROUP_NAME }}' 
+          cluster-name: '${{ secrets.AZURE_APP_NAME }}' 
+      
+      - name: Setup kubectl
+        id: install-kubectl
+        uses: azure/setup-kubectl@v3 
       
       #
       # Deletes the configuration template and deploys the microservice.
