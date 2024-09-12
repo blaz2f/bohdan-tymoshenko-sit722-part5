@@ -60,9 +60,6 @@ jobs:
           h=$(az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP_NAME --name $AZURE_APP_NAME)
 
           echo "::set-output name=h::$h"
-   
-      # Checks-out your repository under $GITHUB_WORKSPACE.
-      - uses: actions/checkout@v3
 
       #
       # Builds the Docker images.
@@ -88,8 +85,8 @@ jobs:
       #
       - name: Publish book-catalog 
         env:
-          NAME: inventory-management
-          DIRECTORY: inventory-management
+          NAME: book-catalog
+          DIRECTORY: book-catalog
           REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
         run: | 
                chmod +x ./scripts/push-image.sh
