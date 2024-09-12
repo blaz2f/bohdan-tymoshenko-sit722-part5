@@ -72,8 +72,9 @@ jobs:
       - name: Build book-catalog 
         env:
           APPLICATION_NAME: book-catalog
-        run: ./scripts/build-image.sh
-        shell: bash
+        shell: bash-wrapper {0}
+        run: | 
+              bash ./scripts/build-image.sh
       
       - name: Build inventory-management
         env:
