@@ -8,9 +8,6 @@ terraform {
     }
   }
 
-  backend "azurerm" {
-  }
-
   required_version = ">= 1.5.6"
 }
 
