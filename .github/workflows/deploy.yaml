@@ -67,13 +67,11 @@ jobs:
       #
       # Builds the Docker images.
       #
-      
       - name: Build book-catalog 
         env:
           NAME: book-catalog
           DIRECTORY: book-catalog
-        run: docker build -t $CONTAINER_REGISTRY/$NAME:$VERSION --file ./$DIRECTORY/Dockerfile ./$DIRECTORY
-
+        run: ./scripts/build-image.sh
       
       - name: Build inventory-management
         env:
