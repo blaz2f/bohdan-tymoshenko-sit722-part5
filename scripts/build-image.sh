@@ -1,6 +1,7 @@
 set -u # or set -o nounset
 : "$CONTAINER_REGISTRY"
 : "$VERSION"
-: "$APPLICATION_NAME"
+: "$NAME"
+: "$DIRECTORY"
 
-docker build -t $CONTAINER_REGISTRY/$APPLICATION_NAME:$VERSION --file ./$APPLICATION_NAME/Dockerfile ./$APPLICATION_NAME
+docker build -t $CONTAINER_REGISTRY/$NAME:$VERSION --file ./$DIRECTORY/Dockerfile-prod ./$DIRECTORY

@@ -71,14 +71,14 @@ jobs:
       #
       - name: Build book-catalog 
         env:
-          APPLICATION_NAME: book-catalog
-        shell: bash-wrapper {0}
-        run: | 
-              bash ./scripts/build-image.sh
+          NAME: book-catalog
+          DIRECTORY: book-catalog
+        run: ./scripts/build-image.sh
       
       - name: Build inventory-management
         env:
-          APPLICATION_NAME: inventory-management
+          NAME: book-catalog
+          DIRECTORY: book-catalog
         run: ./scripts/build-image.sh
 
       #
@@ -94,7 +94,7 @@ jobs:
         env:
           APPLICATION_NAME: inventory-management
           REGISTRY_PW: ${{ steps.REGISTRY_PW.outputs.h }}
-        run: chmod +x ./scripts/push-image.sh
+        run: ./scripts/push-image.sh
 
       #
       # Installs Kubectl and connects it to the cluster.
@@ -111,7 +111,7 @@ jobs:
       #
       - name: Deploy
         run: ./scripts/deploy.sh
-
+      
       - name: Sleep for 20 seconds
         run: sleep 20s
         shell: bash
